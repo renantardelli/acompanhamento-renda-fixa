@@ -2,6 +2,7 @@ import urllib2
 from bs4 import BeautifulSoup
 import pandas as pd
 import dateutil as du
+import datetime as dt
 
 print '-----'
 print 'Atualizando dados diarios\n'
@@ -26,7 +27,10 @@ df_taxas_dia.loc[:, 'preco_unitario'] = df_taxas_dia.preco_unitario.map(monetary
 df_taxas_dia.loc[:, 'valor_minimo'] = df_taxas_dia.valor_minimo.map(monetary_to_float) 
 df_taxas_dia.loc[:, 'taxas_dia'] = df_taxas_dia.taxas_dia.map(fix_interest) 
 df_taxas_dia.loc[:, 'vencimento'] = df_taxas_dia.vencimento.map(du.parser.parse)
+df_taxas_dia.loc[:, 'date'] = dt.datetime.today().replace(hour=0, minute= 0, second=0, microsecond=0)
 
 print "Data base: "
 
-df_taxas_dia.to_csv('/Users/renantardelli/Desktop/datasets/taxas_dia.csv', index=False)
+path = "/Users/renantardelli/Desktop/datasets/tesouro/"
+
+df_taxas_dia.to_csv(path + '/taxas_dia.csv', index=False)
